@@ -39,10 +39,26 @@ echo -e  " $TEMP "
 }
 
 ## BATT
-power() {
-PWR=$(cat /sys/class/power_supply/BAT0/capacity)
-echo -e " $PWR%"
+#power() {
+#PWR=$(cat /sys/class/power_supply/BAT0/capacity)
+#echo -e " $PWR%"
+#}
+
+power(){
+STATUS=$(cat /sys/class/power_supply/BAT0/status)
+BATT=$(cat /sys/class/power_supply/BAT0/capacity)
+
+if [ "$STATUS" = "Discharging" ]; then
+
+    ICON=""
+else
+    ICON=""
+fi
+
+echo " $ICON" "$BATT%"
 }
+
+
 
 ## VOL
 volume() {
@@ -76,10 +92,12 @@ icon="🌤️"
 printf " %s %s \n" "$icon" "$weather"
 }
 
+
+
 while true; do
 
 #xsetroot -name "|  $(cpu) |  $(mem) |   $(hdd) |  $(power) |  $(temp) |   $(volume) | $(date) |"
-	xsetroot -name "|^c#d08770^$(cpu)^d^ |^c#5e81ac^ $(mem)^d^ |^c#a3be8c^ $(hdd)^d^ |^c#b48ead^$(power)^d^ |^c#bf616a^ $(temp)^d^|^c#8fbcbb^  $(volume)^d^ |^c#ebcb8b^$(backlight)^d^ |^c#81a1c1^$(weather)^d^ |^c#93a1a1^ $(clock)^d^"
+	xsetroot -name "^c#d08770^$(cpu)^d^ |^c#5e81ac^ $(mem)^d^ |^c#a3be8c^ $(hdd)^d^ |^c#b48ead^$(power)^d^ |^c#bf616a^ $(temp)^d^|^c#8fbcbb^  $(volume)^d^ |^c#ebcb8b^$(backlight)^d^ |^c#81a1c1^$(weather)^d^ |^c#93a1a1^ $(clock)^d^"
 	
 	sleep 2s
 	
